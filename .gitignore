@@ -1,0 +1,11 @@
+*.zip
+*.o
+*.so
+./esp32/passwords.h
+/assets/
+/thumbnail/
+fp-info-cache
+/games
+__pycache__
+/tibasic
+/out.txb
