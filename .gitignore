@@ -9,3 +9,4 @@ fp-info-cache
 __pycache__
 /tibasic
 /out.txb
+*.var
