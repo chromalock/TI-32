@@ -175,6 +175,7 @@ void loop() {
     // probably relates to a CBL2 timeout thing?
     delay(1000);
     Serial.println("executing queued actions");
+    // dont ask me
     void (*tmp)() = queued_action;
     queued_action = NULL;
     tmp();
@@ -430,7 +431,7 @@ void _sendNote() {
 }
 
 void notes() {
-  auto url = String(SERVER) + String("/cheatsheet") + urlEncode(String(note));
+  auto url = String(SERVER) + String("/cheatsheet");
   memset(note, 0, MAXNOTESIZE);
 
   if (makeRequest(url, note, MAXNOTESIZE, &noteSize)) {
