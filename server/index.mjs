@@ -4,6 +4,7 @@ import bodyParser from "body-parser";
 import morgan from "morgan";
 import dot from "dotenv";
 import { chatgpt } from "./routes/chatgpt.mjs";
+import { answers } from "./routes/answers.mjs";
 dot.config();
 
 async function main() {
@@ -31,6 +32,7 @@ async function main() {
   // Notes
 
   // Answers
+  app.use("/answers", await answers("answerdb.csv"));
 
   app.listen(port, () => {
     console.log(`listening on ${port}`);

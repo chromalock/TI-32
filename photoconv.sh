@@ -1,0 +1,2 @@
+convert in.png -gravity center -crop 96:63 -type bilevel -depth 1 -monochrome out.bmp
+convert out.bmp -interpolate Integer -filter point -depth 1 -colors 2 -interpolative-resize 96x63 -monochrome out.bmp

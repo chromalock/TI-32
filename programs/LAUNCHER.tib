@@ -1,20 +1,16 @@
 ClrHome
 ClrDraw
 
-Menu("OPERATION","CONNECT",C0,"IMAGE",I0
+Menu("OPERATION","CONNECT",C0,"IMAGE",I0,"GPT",G0)
 
 Lbl C0:
 0->C
 Send(C)
-
 0->S
 Repeat S
 Get(S)
 End
-
-Get(E)
 Get(Str1)
-
 ClrHome
 Disp Str1
 Stop
@@ -24,3 +20,21 @@ GridOff
 AxesOff
 Get(Pic0)
 RecallPic Pic0
+Stop
+
+Lbl G0:
+2->C
+Disp "Enter Question:
+Prompt Str0
+Send(C)
+Send(Str0)
+0->S
+Repeat S
+Get(S)
+End
+Get(Str0)
+ClrHome
+ClrDraw
+Output(1,1,Str0)
+Pause
+Stop

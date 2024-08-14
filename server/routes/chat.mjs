@@ -8,7 +8,11 @@ export async function chat(file) {
 
   const db = await lo.JSONFilePreset(file, { inboxes: {} });
 
-  routes.get();
+  routes.get("/recipients", (req, res) => {});
+
+  routes.get("/send", (req, res) => {});
+
+  routes.get("/inbox", (req, res) => {});
 
   return routes;
 }
