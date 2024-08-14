@@ -62,7 +62,7 @@ void send();
 void launcher();
 void snap();
 void solve();
-void images();
+void image_list();
 void fetch_image();
 
 struct Command {
@@ -83,7 +83,7 @@ struct Command commands[] = {
   { 6, "answer", 1, answer, true },
   { 7, "snap", 0, snap, false },
   { 8, "solve", 1, solve, true },
-  { 9, "image_list", 1, images, true },
+  { 9, "image_list", 1, image_list, true },
   { 10, "fetch_image", 1, fetch_image, true }
 };
 
@@ -479,7 +479,7 @@ void solve() {
   setError("pictures not supported");
 }
 
-void images() {
+void image_list() {
   int page = realArgs[0]; 
   auto url = String(SERVER) + String("/image/list?p=") + urlEncode(String(page));
 
