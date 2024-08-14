@@ -1,7 +1,7 @@
 ClrHome
 ClrDraw
 
-Menu("OPERATION","CONNECT",C0,"IMAGE",I0,"GPT",G0)
+Menu("OPERATION","CONNECT",C0,"DISCONNECT",D0,"UPDATE",U0,"IMAGE",I0,"GPT",G0,"CHEATSHEET",C0)
 
 Lbl C0:
 0->C
@@ -15,11 +15,16 @@ ClrHome
 Disp Str1
 Stop
 
-Lbl I0:
-GridOff
-AxesOff
-Get(Pic0)
-RecallPic Pic0
+Lbl D0:
+1->C
+Send(C)
+0->S
+Repeat S
+Get(S)
+End
+Get(Str1)
+ClrHome
+Disp Str1
 Stop
 
 Lbl G0:
@@ -36,5 +41,21 @@ Get(Str0)
 ClrHome
 ClrDraw
 Output(1,1,Str0)
+Pause
+Stop
+
+Lbl U0:
+5->C
+Send(C)
+Stop
+
+Lbl I0:
+GridOff
+AxesOff
+Get(Pic0)
+RecallPic Pic0
+Stop
+
+Lbl C0:
 Pause
 Stop

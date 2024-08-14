@@ -191,7 +191,7 @@ void setSuccess(const char* success) {
   strncpy(message, success, MAXSTRARGLEN);
 }
 
-int sendProgramVariable(const char* name, uint8_t* program, uint8_t variableSize);
+int sendProgramVariable(const char* name, uint8_t* program, size_t variableSize);
 
 void setup() {
   Serial.begin(115200);
@@ -498,7 +498,7 @@ void snap() {
 
 /// OTHER FUNCTIONS
 
-int sendProgramVariable(const char* name, uint8_t* program, uint8_t variableSize) {
+int sendProgramVariable(const char* name, uint8_t* program, size_t variableSize) {
   Serial.print("transferring: ");
   Serial.print(name);
   Serial.print("(");
@@ -511,7 +511,7 @@ int sendProgramVariable(const char* name, uint8_t* program, uint8_t variableSize
   // seems like ti-84s cant silent transfer to each other
   uint8_t msg_header[4] = { COMP83P, RTS, 13, 0 };
 
-  uint8_t rtsdata[13] = { variableSize, 0x00, VarTypes82::VarProgram, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
+  uint8_t rtsdata[13] = { variableSize & 0xff, variableSize >> 8, VarTypes82::VarProgram, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
   int nameSize = strlen(name);
   if (nameSize == 0) {
     return 1;
