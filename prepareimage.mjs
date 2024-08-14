@@ -1,12 +1,13 @@
-import im from "imagemagick";
+import magick from "imagemagick";
 
 async function main() {
   const input = process.argv[2];
   const output = process.argv[3] ?? `${input}.out.bmp`;
 
-  console.log("crop+interpolate:", input);
+  console.log("input:", input);
+  console.time("crop+interpolate");
   await new Promise((resolve, reject) =>
-    im.convert(
+    magick.convert(
       [
         input,
         "-gravity",
@@ -28,9 +29,11 @@ async function main() {
         "96x63",
         "-monochrome",
         "-flip",
+        "-negate",
         output,
       ],
-      (err, meta) => {
+      (err) => {
+        console.timeEnd("crop+interpolate");
         console.log("output:", output);
         if (err) {
           reject(err);
