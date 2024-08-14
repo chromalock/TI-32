@@ -5,6 +5,7 @@ import morgan from "morgan";
 import dot from "dotenv";
 import { chatgpt } from "./routes/chatgpt.mjs";
 import { answers } from "./routes/answers.mjs";
+import { cheatsheet } from "./routes/cheatsheet.mjs";
 dot.config();
 
 async function main() {
@@ -29,7 +30,8 @@ async function main() {
 
   // Chat
 
-  // Notes
+  // Cheatsheet
+  app.use("/cheatsheet", cheatsheet());
 
   // Answers
   app.use("/answers", await answers("answerdb.csv"));

@@ -121,6 +121,7 @@ void answer();
 void send();
 void launcher();
 void snap();
+void solve();
 
 struct Command {
   int id;
@@ -133,11 +134,12 @@ struct Command commands[] = {
   { 0, "connect", 0, connect },
   { 1, "disconnect", 0, disconnect },
   { 2, "gpt", 1, gpt },
-  { 3, "notes", 1, notes },
+  { 3, "notes", 0, notes },
   { 4, "send", 2, send },
   { 5, "launcher", 0, launcher },
   { 6, "answer", 1, answer },
-  { 7, "snap", 0, snap }
+  { 7, "snap", 0, snap },
+  { 8, "solve", 1, solve }
 };
 
 constexpr int NUMCOMMANDS = sizeof(commands) / sizeof(struct Command);
@@ -394,18 +396,32 @@ int makeRequest(String url, char* result, int resultLen) {
 
   // Send HTTP GET request
   int httpResponseCode = http.GET();
-  auto httpResult = http.getString();
-  Serial.print("http response: ");
-  Serial.println(httpResult);
+  Serial.print(httpResponseCode);
 
-  if (httpResponseCode > 0) {
-    strncpy((char*)result, httpResult.c_str(), MAXSTRARGLEN);
-    http.end();
-    return 0;
+  int responseSize = http.getSize();
+  WiFiClient *httpStream = http.getStreamPtr();
+
+  Serial.print("response size: ");
+  Serial.println(responseSize);
+
+  if(httpResponseCode != 200) {
+    return httpResponseCode;
   }
+
+  if(httpStream->available() > resultLen) {
+    Serial.print("response size: ");
+    Serial.print(httpStream->available());
+    Serial.println(" is too big");
+    return -1;
+  }
+   
+  while(httpStream->available()) {
+    *(result++) = httpStream->read();
+  }
+
   http.end();
 
-  return httpResponseCode;
+  return 0;
 }
 
 void connect() {
@@ -448,20 +464,27 @@ void gpt() {
   setSuccess(response);
 }
 
+constexpr auto MAXNOTESIZE = 1024;
+char note[MAXNOTESIZE];
+size_t noteSize = MAXNOTESIZE;
+const char *noteName = "TEST"; 
+
+void _sendNote() {
+  sendProgramVariable("TEST", (uint8_t *)note, noteSize);
+}
+
 void notes() {
-  const char* note = strArgs[0];
+  auto url = String(SERVER) + String("/cheatsheet") + urlEncode(String(note));
+  memset(note, 0, MAXNOTESIZE);
 
-  auto url = String(SERVER) + String("/notes?name=") + urlEncode(String(note));
-
-  if (makeRequest(url, response, MAXSTRARGLEN)) {
+  if (makeRequest(url, note, MAXNOTESIZE)) {
     setError("error making request");
     return;
   }
 
-  Serial.print("response: ");
-  Serial.println(response);
+  queued_action = _sendNote;
 
-  setSuccess(response);
+  setSuccess("grabbed cheatsheet");
 }
 
 void send() {
@@ -493,7 +516,11 @@ void answer() {
 
 void snap() {
   // this is a camera thing
-  setError("pictures not supported.");
+  setError("pictures not supported");
+}
+
+void solve() {
+  setError("pictures not supported");
 }
 
 /// OTHER FUNCTIONS
