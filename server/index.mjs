@@ -6,6 +6,7 @@ import dot from "dotenv";
 import { chatgpt } from "./routes/chatgpt.mjs";
 import { answers } from "./routes/answers.mjs";
 import { cheatsheet } from "./routes/cheatsheet.mjs";
+import { images } from "./routes/images.mjs";
 dot.config();
 
 async function main() {
@@ -24,11 +25,18 @@ async function main() {
       limit: "10mb",
     })
   );
+  app.use((req, res, next) => {
+    console.log(req.headers.authorization);
+    next();
+  });
 
   // ChatGPT
   app.use("/gpt", await chatgpt());
 
   // Chat
+
+  // Images
+  app.use("/image", images());
 
   // Cheatsheet
   app.use("/cheatsheet", cheatsheet());

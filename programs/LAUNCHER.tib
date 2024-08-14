@@ -1,6 +1,7 @@
 ClrHome
 ClrDraw
 
+Lbl Q1:
 Menu("OPERATION","CONNECT",C0,"DISCONNECT",D0,"UPDATE",U0,"IMAGE",I0,"GPT",G0,"CHEATSHEET",S0)
 
 Lbl C0:
@@ -13,7 +14,8 @@ End
 Get(Str1)
 ClrHome
 Disp Str1
-Stop
+Pause 
+Goto Q1
 
 Lbl D0:
 1->C
@@ -25,7 +27,8 @@ End
 Get(Str1)
 ClrHome
 Disp Str1
-Stop
+Pause 
+Goto Q1
 
 Lbl G0:
 2->C
@@ -42,7 +45,8 @@ ClrHome
 ClrDraw
 Output(1,1,Str0)
 Pause 
-Stop
+Pause 
+Goto Q1
 
 Lbl S0:
 3->C
@@ -57,6 +61,74 @@ Stop
 Lbl I0:
 GridOff
 AxesOff
-Get(Pic0)
-RecallPic Pic0
-Stop
+
+0->P
+~1->I
+ClrHome
+Repeat I>~1
+
+Lbl I1:
+ClrHome
+0->S
+9->C
+Send(C)
+Send(P)
+Repeat S
+Get(S)
+End
+Get(S)
+Get(Str0)
+
+Output(1,1,Str0)
+Output(6,1,"PAGE ")
+Output(6,6,P)
+Output(7,1,"L/R=NAV")
+Output(8,1,"0,1,2,3 TO SEL")
+
+0->K
+Repeat max(K={24,26,102,92,93,94})
+getKey->K
+End
+
+If K=24:Then
+max(P-1,0)->P
+Goto I1
+End
+If K=26:Then
+P+1->P
+Goto I1
+End
+
+If K=102:Then
+0->I
+End
+If K=92:Then
+1->I
+End
+If K=93:Then
+2->I
+End
+If K=94:Then
+3->I
+End
+
+10->C
+(I+(P*4))->D
+Send(C)
+Send(D)
+0->S
+Repeat S
+Get(S)
+End
+Get(S)
+Get(Pic1)
+~1->I
+0->D
+ClrDraw
+RecallPic Pic1
+Pause 
+Goto I1
+End
+
+Pause 
+Goto Q1
