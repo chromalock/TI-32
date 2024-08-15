@@ -51,7 +51,7 @@ char list[LISTLEN][LISTENTRYLEN];
 constexpr auto MAXHTTPRESPONSELEN = 1024;
 char response[MAXHTTPRESPONSELEN];
 // image variable (96x63)
-uint8_t frame[PICVARSIZE] = {PICSIZE & 0xff, PICSIZE >> 8};
+uint8_t frame[PICVARSIZE] = { PICSIZE & 0xff, PICSIZE >> 8 };
 
 void connect();
 void disconnect();
@@ -183,9 +183,13 @@ void loop() {
   if (command >= 0 && command < NUMCOMMANDS) {
     for (int i = 0; i < NUMCOMMANDS; ++i) {
       if (commands[i].id == command && commands[i].nargs == currentArg) {
-        Serial.print("processing command: ");
-        Serial.println(commands[i].name);
-        commands[i].command_fp();
+        if (commands[i].wifi && !WiFi.isConnected()) {
+          setError("wifi not connected");
+        } else {
+          Serial.print("processing command: ");
+          Serial.println(commands[i].name);
+          commands[i].command_fp();
+        }
       }
     }
   }
@@ -332,7 +336,7 @@ int onRequest(uint8_t type, enum Endpoint model, int* headerlen, int* datalen, d
   return 0;
 }
 
-int makeRequest(String url, char* result, int resultLen, size_t *len) {
+int makeRequest(String url, char* result, int resultLen, size_t* len) {
   memset(result, 0, resultLen);
 
 #ifdef SECURE
@@ -354,23 +358,23 @@ int makeRequest(String url, char* result, int resultLen, size_t *len) {
   Serial.println(httpResponseCode);
 
   int responseSize = http.getSize();
-  WiFiClient *httpStream = http.getStreamPtr();
+  WiFiClient* httpStream = http.getStreamPtr();
 
   Serial.print("response size: ");
   Serial.println(responseSize);
 
-  if(httpResponseCode != 200) {
+  if (httpResponseCode != 200) {
     return httpResponseCode;
   }
 
-  if(httpStream->available() > resultLen) {
+  if (httpStream->available() > resultLen) {
     Serial.print("response size: ");
     Serial.print(httpStream->available());
     Serial.println(" is too big");
     return -1;
   }
-   
-  while(httpStream->available()) {
+
+  while (httpStream->available()) {
     *(result++) = httpStream->read();
   }
   *len = responseSize;
@@ -424,10 +428,10 @@ void gpt() {
 constexpr auto MAXNOTESIZE = 1024;
 char note[MAXNOTESIZE];
 size_t noteSize = MAXNOTESIZE;
-const char *noteName = "SHEET"; 
+const char* noteName = "SHEET";
 
 void _sendNote() {
-  sendProgramVariable(noteName, (uint8_t *)note, noteSize);
+  sendProgramVariable(noteName, (uint8_t*)note, noteSize);
 }
 
 void notes() {
@@ -481,7 +485,7 @@ void solve() {
 }
 
 void image_list() {
-  int page = realArgs[0]; 
+  int page = realArgs[0];
   auto url = String(SERVER) + String("/image/list?p=") + urlEncode(String(page));
 
   size_t realsize = 0;
@@ -497,7 +501,7 @@ void image_list() {
 }
 
 void fetch_image() {
-  memset(frame+2, 0, 756);
+  memset(frame + 2, 0, 756);
   // fetch image and put it into the frame variable
   int id = realArgs[0];
   Serial.print("id: ");
@@ -511,7 +515,7 @@ void fetch_image() {
     return;
   }
 
-  if(realsize != 756) {
+  if (realsize != 756) {
     Serial.print("response size:");
     Serial.println(realsize);
     setError("bad image size");

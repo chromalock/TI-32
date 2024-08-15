@@ -32,7 +32,7 @@ export function images() {
 
     const image_list = images
       .slice(page * list_len, page * list_len + list_len)
-      .map((x, i) => (`${i + page * list_len}:` + x.padEnd(len, " ")).substring(0, len))
+      .map((x, i) => (`${i}:` + x.padEnd(len, " ")).substring(0, len))
       .slice();
     console.log(image_list);
 
