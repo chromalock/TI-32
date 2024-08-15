@@ -7,7 +7,41 @@ ClrDraw
 0->S
 0->E
 ""->Str0
-Menu("OPERATION","CONNECT",C0,"DISCONNECT",D0,"UPDATE",U0,"IMAGE",I0,"GPT",G0,"CHEATSHEET",S0,"QUIT",R0)
+Menu("OPERATION","SETTINGS",K0,"IMAGES",I0,"GPT",G0,"CHEATSHEET",S0,"CHAT",T0,"CAMERA",C9,"EXIT",X0)
+
+Lbl C9:
+7->C
+0->S
+0->E
+
+Send(C)
+Repeat S
+Get(Pic1)
+End
+Get(Str1)
+RecallPic Pic1
+
+0->K
+Repeat max(K={45,105})
+getKey->K
+End
+
+If K=45:Then
+Goto Q1
+End
+
+Goto C9
+
+
+Lbl X0:
+Stop
+
+Lbl K0:
+Menu("SETTINGS","CONNECT",C0,"DISCONNECT",D0,"UPDATE",U0,"BACK",B0)
+
+Lbl B0:
+Goto Q1
+
 
 Lbl R0:
 ClrHome
@@ -148,6 +182,64 @@ RecallPic Pic1
 Pause 
 Goto I1
 End
-
 Pause 
+
+
+Lbl T0:
+0->P
+0->R
+""->Str1
+""->Str0
+
+
+Lbl T1:
+ClrHome
+0->S
+11->C
+Send(C)
+Send(R)
+Send(P)
+Output(4,2,"loading chats...")
+Repeat S
+Get(S)
+End
+ClrHome
+Get(Str0)
+
+Output(1,1,Str0)
+Output(8,1,"Page:")
+Output(8,6,P)
+
+0->K
+Repeat max(K={25,34,45,105})
+getKey->K
+End
+
+If K=45:Then
+Goto Q1
+End
+If K=25:Then
+P+1->P
+End
+If K=34:Then
+max(P-1,0)->P
+End
+If K=105:Then
+ClrHome
+Output(2,1,Str0)
+Input Str1
+12->C
+Send(C)
+Send(R)
+Send(Str1)
+Repeat S
+Get(S)
+End
+ClrHome
+Get(Str0)
+End
+
+Goto T1
+
+
 Goto Q1

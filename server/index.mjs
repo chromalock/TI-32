@@ -7,6 +7,7 @@ import { chatgpt } from "./routes/chatgpt.mjs";
 import { answers } from "./routes/answers.mjs";
 import { cheatsheet } from "./routes/cheatsheet.mjs";
 import { images } from "./routes/images.mjs";
+import { chat } from "./routes/chat.mjs";
 dot.config();
 
 async function main() {
@@ -34,6 +35,7 @@ async function main() {
   app.use("/gpt", await chatgpt());
 
   // Chat
+  app.use("/chats", await chat());
 
   // Images
   app.use("/image", images());
