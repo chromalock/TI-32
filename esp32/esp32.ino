@@ -13,6 +13,9 @@
 #include <HTTPClient.h>
 #include <UrlEncode.h>
 #include <Preferences.h>
+#include <esp_camera.h>
+
+#define CAMERA
 
 #ifdef CAMERA
 #define CAMERA_MODEL_XIAO_ESP32S3
@@ -235,9 +238,7 @@ void setup() {
 
   sensor_t *s = esp_camera_sensor_get();
   // enable grayscale
-  s->set_special_effects(2);
-  
-
+  s->set_special_effect(s, 2);
 #endif
 
 
