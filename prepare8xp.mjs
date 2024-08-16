@@ -8,11 +8,16 @@
 //
 import fs from "fs";
 
-const bytes = new Uint8Array(fs.readFileSync(process.argv[2]));
+export function prepare8xp(path) {
+  const bytes = new Uint8Array(fs.readFileSync(path));
 
-const programBytes = bytes.subarray(74, bytes.length - 2);
-const varBytes = new Uint8Array([programBytes.length & 0xff, (programBytes.length >> 8) & 0xff, ...programBytes]);
+  const programBytes = bytes.subarray(74, bytes.length - 2);
+  const varBytes = new Uint8Array([programBytes.length & 0xff, (programBytes.length >> 8) & 0xff, ...programBytes]);
 
-const outFile = process.argv[3] ?? "out.var";
+  return varBytes;
+}
 
-fs.writeFileSync(outFile, varBytes);
+// const varBytes = prepare8xp(process.argv[2]);
+// const outFile = process.argv[3] ?? "out.var";
+
+// fs.writeFileSync(outFile, varBytes);

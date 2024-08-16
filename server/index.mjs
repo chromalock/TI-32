@@ -4,10 +4,9 @@ import bodyParser from "body-parser";
 import morgan from "morgan";
 import dot from "dotenv";
 import { chatgpt } from "./routes/chatgpt.mjs";
-import { answers } from "./routes/answers.mjs";
-import { cheatsheet } from "./routes/cheatsheet.mjs";
 import { images } from "./routes/images.mjs";
 import { chat } from "./routes/chat.mjs";
+import { programs } from "./routes/programs.mjs";
 dot.config();
 
 async function main() {
@@ -31,6 +30,9 @@ async function main() {
     next();
   });
 
+  // Programs
+  app.use("/programs", programs());
+
   // ChatGPT
   app.use("/gpt", await chatgpt());
 
@@ -39,12 +41,6 @@ async function main() {
 
   // Images
   app.use("/image", images());
-
-  // Cheatsheet
-  app.use("/cheatsheet", cheatsheet());
-
-  // Answers
-  app.use("/answers", await answers("answerdb.csv"));
 
   app.listen(port, () => {
     console.log(`listening on ${port}`);

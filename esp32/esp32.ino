@@ -15,7 +15,7 @@
 #include <Preferences.h>
 #include <esp_camera.h>
 
-#define CAMERA
+// #define CAMERA
 
 #ifdef CAMERA
 #define CAMERA_MODEL_XIAO_ESP32S3
@@ -57,7 +57,7 @@ constexpr auto LISTLEN = 256;
 constexpr auto LISTENTRYLEN = 20;
 char list[LISTLEN][LISTENTRYLEN];
 // http response
-constexpr auto MAXHTTPRESPONSELEN = 1024;
+constexpr auto MAXHTTPRESPONSELEN = 4096;
 char response[MAXHTTPRESPONSELEN];
 // image variable (96x63)
 uint8_t frame[PICVARSIZE] = { PICSIZE & 0xff, PICSIZE >> 8 };
@@ -65,8 +65,6 @@ uint8_t frame[PICVARSIZE] = { PICSIZE & 0xff, PICSIZE >> 8 };
 void connect();
 void disconnect();
 void gpt();
-void notes();
-void answer();
 void send();
 void launcher();
 void snap();
@@ -75,6 +73,8 @@ void image_list();
 void fetch_image();
 void fetch_chats();
 void send_chat();
+void program_list();
+void fetch_program();
 
 struct Command {
   int id;
@@ -88,16 +88,16 @@ struct Command commands[] = {
   { 0, "connect", 0, connect, false },
   { 1, "disconnect", 0, disconnect, false },
   { 2, "gpt", 1, gpt, true },
-  { 3, "notes", 0, notes, true },
   { 4, "send", 2, send, true },
   { 5, "launcher", 0, launcher, false },
-  { 6, "answer", 1, answer, true },
   { 7, "snap", 0, snap, false },
   { 8, "solve", 1, solve, true },
   { 9, "image_list", 1, image_list, true },
   { 10, "fetch_image", 1, fetch_image, true },
   { 11, "fetch_chats", 2, fetch_chats, true },
   { 12, "send_chat", 2, send_chat, true },
+  { 13, "program_list", 2, program_list, true },
+  { 14, "fetch_program", 2, fetch_program, true },
 };
 
 constexpr int NUMCOMMANDS = sizeof(commands) / sizeof(struct Command);
@@ -226,21 +226,20 @@ void setup() {
 #endif
   }
 
-    // camera init
+  // camera init
   esp_err_t err = esp_camera_init(&config);
   if (err != ESP_OK) {
     Serial.printf("Camera init failed with error 0x%x\n", err);
     return;
   } else {
     Serial.println("camera ready");
-    camera_sign = true; // Camera initialization check passes
+    camera_sign = true;  // Camera initialization check passes
   }
 
-  sensor_t *s = esp_camera_sensor_get();
+  sensor_t* s = esp_camera_sensor_get();
   // enable grayscale
   s->set_special_effect(s, 2);
 #endif
-
 
   strncpy(message, "default message", MAXSTRARGLEN);
   delay(100);
@@ -507,29 +506,6 @@ void gpt() {
   setSuccess(response);
 }
 
-constexpr auto MAXNOTESIZE = 1024;
-char note[MAXNOTESIZE];
-size_t noteSize = MAXNOTESIZE;
-const char* noteName = "SHEET";
-
-void _sendNote() {
-  sendProgramVariable(noteName, (uint8_t*)note, noteSize);
-}
-
-void notes() {
-  auto url = String(SERVER) + String("/cheatsheet");
-  memset(note, 0, MAXNOTESIZE);
-
-  if (makeRequest(url, note, MAXNOTESIZE, &noteSize)) {
-    setError("error making request");
-    return;
-  }
-
-  queued_action = _sendNote;
-
-  setSuccess("grabbed cheatsheet");
-}
-
 void send() {
   const char* recipient = strArgs[0];
   const char* message = strArgs[1];
@@ -552,14 +528,9 @@ void launcher() {
   setSuccess("queued transfer");
 }
 
-void answer() {
-  const char* question = strArgs[0];
-  setError("not implemented");
-}
-
 void snap() {
 #ifdef CAMERA
-  if(!camera_sign) {
+  if (!camera_sign) {
     setError("camera failed to initialize");
   }
 #else
@@ -569,7 +540,7 @@ void snap() {
 
 void solve() {
 #ifdef CAMERA
-  if(!camera_sign) {
+  if (!camera_sign) {
     setError("camera failed to initialize");
   }
 #else
@@ -656,6 +627,70 @@ void send_chat() {
   Serial.println(response);
 
   setSuccess(response);
+}
+
+void program_list() {
+  int page = realArgs[0];
+  auto url = String(SERVER) + String("/programs/list?p=") + urlEncode(String(page));
+
+  size_t realsize = 0;
+  if (makeRequest(url, response, MAXSTRARGLEN, &realsize)) {
+    setError("error making request");
+    return;
+  }
+
+  Serial.print("response: ");
+  Serial.println(response);
+
+  setSuccess(response);
+}
+
+
+char programName[256];
+char programData[4096];
+size_t programLength;
+
+void _resetProgram() {
+  memset(programName, 0, 256);
+  memset(programData, 0, 4096);
+  programLength = 0;
+}
+
+void _sendDownloadedProgram() {
+  if (sendProgramVariable(programName, (uint8_t*)programData, programLength)) {
+    Serial.println("failed to transfer requested download");
+    Serial.print(programName);
+    Serial.print("(");
+    Serial.print(programLength);
+    Serial.println(")");
+  }
+  _resetProgram();
+}
+
+void fetch_program() {
+  int id = realArgs[0];
+  Serial.print("id: ");
+  Serial.println(id);
+
+  _resetProgram();
+
+  auto url = String(SERVER) + String("/programs/get?id=") + urlEncode(String(id));
+
+  if (makeRequest(url, programData, 4096, &programLength)) {
+    setError("error making request for program data");
+    return;
+  }
+
+  size_t realsize = 0;
+  auto nameUrl = String(SERVER) + String("programs/get_name?id=") + urlEncode(String(id));
+  if (makeRequest(nameUrl, programName, 256, &realsize)) {
+    setError("error making request for program name");
+    return;
+  }
+
+  queued_action = _sendDownloadedProgram;
+
+  setSuccess("queued download");
 }
 
 /// OTHER FUNCTIONS
