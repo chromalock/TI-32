@@ -13,11 +13,11 @@
 #include <HTTPClient.h>
 #include <UrlEncode.h>
 #include <Preferences.h>
-#include <esp_camera.h>
 
 // #define CAMERA
 
 #ifdef CAMERA
+#include <esp_camera.h>
 #define CAMERA_MODEL_XIAO_ESP32S3
 #include "./camera_pins.h"
 #include "./camera_index.h"
@@ -79,7 +79,7 @@ void fetch_program();
 struct Command {
   int id;
   const char* name;
-  int nargs;
+  int num_args;
   void (*command_fp)();
   bool wifi;
 };
@@ -96,11 +96,12 @@ struct Command commands[] = {
   { 10, "fetch_image", 1, fetch_image, true },
   { 11, "fetch_chats", 2, fetch_chats, true },
   { 12, "send_chat", 2, send_chat, true },
-  { 13, "program_list", 2, program_list, true },
-  { 14, "fetch_program", 2, fetch_program, true },
+  { 13, "program_list", 1, program_list, true },
+  { 14, "fetch_program", 1, fetch_program, true },
 };
 
 constexpr int NUMCOMMANDS = sizeof(commands) / sizeof(struct Command);
+constexpr int MAXCOMMAND = 14;
 
 uint8_t header[MAXHDRLEN];
 uint8_t data[MAXDATALEN];
@@ -261,9 +262,9 @@ void loop() {
     queued_action = NULL;
     tmp();
   }
-  if (command >= 0 && command < NUMCOMMANDS) {
+  if (command >= 0 && command <= MAXCOMMAND) {
     for (int i = 0; i < NUMCOMMANDS; ++i) {
-      if (commands[i].id == command && commands[i].nargs == currentArg) {
+      if (commands[i].id == command && commands[i].num_args == currentArg) {
         if (commands[i].wifi && !WiFi.isConnected()) {
           setError("wifi not connected");
         } else {
@@ -305,7 +306,7 @@ int onReceived(uint8_t type, enum Endpoint model, int datalen) {
       return -1;
     }
     int cmd = TIVar::realToLong8x(data, model);
-    if (cmd >= 0 && cmd < NUMCOMMANDS) {
+    if (cmd >= 0 && cmd <= MAXCOMMAND) {
       Serial.print("command: ");
       Serial.println(cmd);
       startCommand(cmd);
@@ -579,7 +580,7 @@ void fetch_image() {
     return;
   }
 
-  if (realsize != 756) {
+  if (realsize != PICSIZE) {
     Serial.print("response size:");
     Serial.println(realsize);
     setError("bad image size");
@@ -682,7 +683,7 @@ void fetch_program() {
   }
 
   size_t realsize = 0;
-  auto nameUrl = String(SERVER) + String("programs/get_name?id=") + urlEncode(String(id));
+  auto nameUrl = String(SERVER) + String("/programs/get_name?id=") + urlEncode(String(id));
   if (makeRequest(nameUrl, programName, 256, &realsize)) {
     setError("error making request for program name");
     return;

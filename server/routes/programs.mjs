@@ -43,7 +43,7 @@ export function programs() {
   router.get("/get_name", (req, res) => {
     const id = req.query.id;
     if (!id || Array.isArray(id)) {
-      res.sendStatus(400);
+      res.status(400);
       res.send("bad id");
       return;
     }
@@ -59,14 +59,14 @@ export function programs() {
       return;
     }
 
-    const program = programs[id].substring(0, 10);
+    const program = programs[id].substring(0, 10).toUpperCase();
     res.send(program);
   });
 
   router.get("/get", (req, res) => {
     const id = req.query.id;
     if (!id || Array.isArray(id)) {
-      res.sendStatus(400);
+      res.status(400);
       res.send("bad id");
       return;
     }
@@ -86,13 +86,10 @@ export function programs() {
 
     console.log({ program });
 
-    const bytes = p8.prepare8xp(path.join(process.cwd(), "programs", program));
+    const bytes = Buffer.from(p8.prepare8xp(path.join(process.cwd(), "programs", program)));
 
-    res.send(bytes, {
-      headers: {
-        "Content-Type": "application/octet-stream",
-      },
-    });
+    res.setHeader("Content-Type", "application/octet-stream");
+    res.send(bytes);
   });
 
   return router;

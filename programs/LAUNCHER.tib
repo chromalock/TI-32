@@ -7,7 +7,7 @@ ClrDraw
 0->S
 0->E
 ""->Str0
-Menu("OPERATION","SETTINGS",K0,"IMAGES",I0,"GPT",G0,"CHEATSHEET",S0,"CHAT",T0,"CAMERA",C9,"EXIT",X0)
+Menu("OPERATION","SETTINGS",K0,"IMAGES",I0,"APPS",S0,"CHAT",T0,"GPT",G0,"CAMERA",C9,"EXIT",X0)
 
 Lbl C9:
 7->C
@@ -91,12 +91,74 @@ Output(1,1,Str0)
 Goto Q1
 
 Lbl S0:
+GridOff
+AxesOff
+
+0->P
+~1->I
 ClrHome
-Output(1,1,"transfer started")
-3->C
+Repeat I>~1
+
+Lbl S1:
+ClrHome
+0->S
+13->C
 Send(C)
+Send(P)
+Repeat S
+Get(S)
+End
+Get(S)
+Get(Str1)
+
+Output(1,1,Str1)
+Output(6,1,"PAGE ")
+Output(6,6,P)
+Output(7,1,"L/R=NAV")
+Output(8,1,"0,1,2,3 TO SEL")
+
+0->K
+Repeat max(K={24,26,102,92,93,94,45})
+getKey->K
+End
+
+If K=45:Then
+Goto Q1
+End
+If K=24:Then
+max(P-1,0)->P
+Goto S1
+End
+If K=26:Then
+P+1->P
+Goto S1
+End
+
+If K=102:Then
+0->I
+End
+If K=92:Then
+1->I
+End
+If K=93:Then
+2->I
+End
+If K=94:Then
+3->I
+End
+
 ClrHome
+Output(4,4,"loading...")
+ClrHome
+14->C
+(I+(P*4))->D
+Send(C)
+Send(D)
+0->S
+~1->I
+0->D
 Stop
+End
 
 Lbl U0:
 ClrHome
@@ -164,7 +226,7 @@ If K=94:Then
 End
 
 ClrHome
-Output(4,4,"LOADING...")
+Output(4,4,"loading...")
 10->C
 (I+(P*4))->D
 Send(C)

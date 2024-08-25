@@ -16,8 +16,3 @@ export function prepare8xp(path) {
 
   return varBytes;
 }
-
-// const varBytes = prepare8xp(process.argv[2]);
-// const outFile = process.argv[3] ?? "out.var";
-
-// fs.writeFileSync(outFile, varBytes);
