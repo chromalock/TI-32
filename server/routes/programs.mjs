@@ -26,7 +26,8 @@ export function programs() {
     }
 
     const page = pageCandidate;
-    if (page + 1 > programs.length / list_len) {
+    if (page + 1 > Math.ceil(programs.length / list_len)) {
+      console.log("sending blank");
       res.send("".repeat(len * list_len));
       return;
     }

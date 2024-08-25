@@ -88,6 +88,7 @@ Get(Str0)
 ClrHome
 ClrDraw
 Output(1,1,Str0)
+Pause 
 Goto Q1
 
 Lbl S0:
