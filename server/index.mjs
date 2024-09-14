@@ -33,6 +33,8 @@ async function main() {
   // Programs
   app.use("/programs", programs());
 
+  app.get("/ping", (req, res) => res.send("pong"));
+
   // ChatGPT
   app.use("/gpt", await chatgpt());
 
