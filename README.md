@@ -15,6 +15,14 @@ A mod for TI-84 Plus C Silver Edition calculators to give them internet access a
 - Support for bigger menu (320x240 resolution only)
 - Support for lowercase text
 - Documentation
+- Basic Web Browsing
+- HTTPS Encryption
+- Email Send and Read
+- Discord Access
+- Get local weather
+- Control computer wirelessly
+- QR Code & Barcode scanner
+- Video player
 
 ## Bug Fixes
 
