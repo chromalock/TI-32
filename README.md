@@ -1,6 +1,6 @@
 # TI-32
 
-A mod for TI-84 Plus C Silver Edition calculators to give them internet access and add other features, like test mode breakout and camera support
+A mod for TI-84 calculators with a link port (I/O) to give them internet access and add other features, like test mode breakout and camera support
 
 ![built pcb](./pcb/built.png)
 
@@ -26,9 +26,12 @@ A mod for TI-84 Plus C Silver Edition calculators to give them internet access a
 
 ## Bug Fixes
 
-- Images don't work
 - GPT Menu closes immediately when receiving response
 - App transfer fails
+
+## Known Issues
+
+- Images don't tranfer: if you get this problem, one cause is the esp32 not having enough memory to store the picture.
 
 ## Video
 [![YouTube](http://i.ytimg.com/vi/Bicjxl4EcJg/hqdefault.jpg)](https://www.youtube.com/watch?v=Bicjxl4EcJg)
