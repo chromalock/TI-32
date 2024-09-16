@@ -1,6 +1,6 @@
 # TI-32
 
-A mod for TI-84 Plus C Silver Edition calculators to give them internet access and add other features, like test mode breakout and camera support
+A mod for the TI-84 Plus Silver Edition & TI-84 Plus C Silver Edition calculators to give them internet access and add other features, like test mode breakout and camera support
 
 ![built pcb](./pcb/built.png)
 
