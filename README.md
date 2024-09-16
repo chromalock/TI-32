@@ -5,4 +5,4 @@ A mod for TI-84 calculators to give them internet access and add other features,
 ![built pcb](./pcb/built.png)
 
 ## Video
-TODO add video link
+[![YouTube](http://i.ytimg.com/vi/Bicjxl4EcJg/hqdefault.jpg)](https://www.youtube.com/watch?v=Bicjxl4EcJg)
