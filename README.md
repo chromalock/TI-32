@@ -33,5 +33,9 @@ A mod for TI-84 calculators with a link port (I/O) to give them internet access 
 
 - Images don't tranfer: if you get this problem, one cause is the esp32 not having enough memory to store the picture or the picture is too large.
 
+## Documentation
+
+Read the DOCUMENTATION.md file
+
 ## Video
 [![YouTube](http://i.ytimg.com/vi/Bicjxl4EcJg/hqdefault.jpg)](https://www.youtube.com/watch?v=Bicjxl4EcJg)
