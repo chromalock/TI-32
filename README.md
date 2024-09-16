@@ -31,4 +31,4 @@ A mod for TI-84 Plus C Silver Edition calculators to give them internet access a
 - App transfer fails
 
 ## Video
-TODO add video link
+[![YouTube](http://i.ytimg.com/vi/Bicjxl4EcJg/hqdefault.jpg)](https://www.youtube.com/watch?v=Bicjxl4EcJg)
