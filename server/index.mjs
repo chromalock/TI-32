@@ -7,7 +7,6 @@ import { chatgpt } from "./routes/chatgpt.mjs";
 import { images } from "./routes/images.mjs";
 import { chat } from "./routes/chat.mjs";
 import { programs } from "./routes/programs.mjs";
-import { googleApi } from "./routes/googleApi.mjs";
 dot.config();
 
 async function main() {
@@ -36,10 +35,6 @@ async function main() {
 
   // ChatGPT 
   app.use("/gpt", await chatgpt());
-
-  // Google API (comment chatgpt and uncomment googleApi to use)
-  //app.use("/gpt", await googleApi());
-
 
   // Chat
   app.use("/chats", await chat());
