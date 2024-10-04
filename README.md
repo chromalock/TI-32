@@ -4,6 +4,10 @@ A mod for TI-84 calculators with a link port (I/O) to give them internet access 
 
 ![built pcb](./pcb/built.png)
 
+## Fork differences
+
+- Google api option for server
+
 ## Features to be Added
 
 - Change Wi-Fi settings directly from calculator
