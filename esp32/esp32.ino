@@ -62,7 +62,7 @@ char response[MAXHTTPRESPONSELEN];
 // image variable (96x63)
 uint8_t frame[PICVARSIZE] = {PICSIZE & 0xff, PICSIZE >> 8};
 String fullResponse;
-const int PAGE_SIZE = 233;
+const int PAGE_SIZE = 100;
 int PAGE_PAGE = 0; 
 
 void connect();
