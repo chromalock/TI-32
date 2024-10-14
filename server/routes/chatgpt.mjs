@@ -22,7 +22,7 @@ export async function chatgpt() {
           {
             role: "system",
             content:
-              "You are answering questions for students. Keep responses under 100 characters and only answer using uppercase letters.",
+              "Do not use emojis. ",
           },
           { role: "user", content: question },
         ],
@@ -77,7 +77,7 @@ export async function chatgpt() {
           {
             role: "system",
             content:
-              "You are a helpful math tutor, specifically designed to help with basic arithmetic, but also can answer a broad range of math questions from uploaded images. You should provide answers as succinctly as possible, and always under 100 characters. Be as accurate as possible.",
+              "You are a helpful math tutor, specifically designed to help with basic arithmetic, but also can answer a broad range of math questions from uploaded images. You should provide answers as succinctly as possible. Be as accurate as possible.",
           },
           {
             role: "user",
