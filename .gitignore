@@ -16,3 +16,9 @@ gpt\.png
 !/test-images/*
 /cache/
 !blank.bmp
+/*.png
+/*.jpg
+/voiceover/
+/sfx/
+/test-images/
+/pipedream/
