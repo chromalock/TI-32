@@ -1,0 +1,308 @@
+ClrHome
+ClrDraw
+
+Lbl Q1:
+ClrHome
+ClrDraw
+0->S
+0->E
+""->Str0
+Menu("OPERATION","SETTINGS",K0,"IMAGES",I0,"APPS",S0,"CHAT",T0,"GPT",G0,"CAMERA",C9,"EXIT",X0)
+
+Lbl C9:
+7->C
+0->S
+0->E
+
+Send(C)
+Repeat S
+Get(Pic1)
+End
+Get(Str1)
+RecallPic Pic1
+
+0->K
+Repeat max(K={45,105})
+getKey->K
+End
+
+If K=45:Then
+Goto Q1
+End
+
+Goto C9
+
+
+Lbl X0:
+Stop
+
+Lbl K0:
+Menu("SETTINGS","CONNECT",C0,"DISCONNECT",D0,"UPDATE",U0,"BACK",B0)
+
+Lbl B0:
+Goto Q1
+
+
+Lbl R0:
+ClrHome
+ClrDraw
+Stop
+
+Lbl C0:
+0->C
+Send(C)
+0->S
+Repeat S
+Get(S)
+End
+Get(Str1)
+ClrHome
+Disp Str1
+Pause 
+Goto Q1
+
+Lbl D0:
+1->C
+Send(C)
+0->S
+Repeat S
+Get(S)
+End
+Get(Str1)
+ClrHome
+Disp Str1
+Pause 
+Goto Q1
+
+Lbl G0:
+2->C
+Disp "Enter Question:
+Prompt Str0
+Send(C)
+Send(Str0)
+0->S
+Repeat S
+Get(S)
+End
+Get(Str0)
+ClrHome
+ClrDraw
+Output(1,1,Str0)
+Pause 
+Goto Q1
+
+Lbl S0:
+GridOff
+AxesOff
+
+0->P
+~1->I
+ClrHome
+Repeat I>~1
+
+Lbl S1:
+ClrHome
+0->S
+13->C
+Send(C)
+Send(P)
+Repeat S
+Get(S)
+End
+Get(S)
+Get(Str1)
+
+Output(1,1,Str1)
+Output(6,1,"PAGE ")
+Output(6,6,P)
+Output(7,1,"L/R=NAV")
+Output(8,1,"0,1,2,3 TO SEL")
+
+0->K
+Repeat max(K={24,26,102,92,93,94,45})
+getKey->K
+End
+
+If K=45:Then
+Goto Q1
+End
+If K=24:Then
+max(P-1,0)->P
+Goto S1
+End
+If K=26:Then
+P+1->P
+Goto S1
+End
+
+If K=102:Then
+0->I
+End
+If K=92:Then
+1->I
+End
+If K=93:Then
+2->I
+End
+If K=94:Then
+3->I
+End
+
+ClrHome
+Output(4,4,"loading...")
+ClrHome
+14->C
+(I+(P*4))->D
+Send(C)
+Send(D)
+0->S
+~1->I
+0->D
+Stop
+End
+
+Lbl U0:
+ClrHome
+Output(1,1,"update started")
+5->C
+Send(C)
+ClrHome
+Stop
+
+Lbl I0:
+GridOff
+AxesOff
+
+0->P
+~1->I
+ClrHome
+Repeat I>~1
+
+Lbl I1:
+ClrHome
+0->S
+9->C
+Send(C)
+Send(P)
+Repeat S
+Get(S)
+End
+Get(S)
+Get(Str0)
+
+Output(1,1,Str0)
+Output(6,1,"PAGE ")
+Output(6,6,P)
+Output(7,1,"L/R=NAV")
+Output(8,1,"0,1,2,3 TO SEL")
+
+0->K
+Repeat max(K={24,26,102,92,93,94,45})
+getKey->K
+End
+
+If K=45:Then
+Goto Q1
+End
+If K=24:Then
+max(P-1,0)->P
+Goto I1
+End
+If K=26:Then
+P+1->P
+Goto I1
+End
+
+If K=102:Then
+0->I
+End
+If K=92:Then
+1->I
+End
+If K=93:Then
+2->I
+End
+If K=94:Then
+3->I
+End
+
+ClrHome
+Output(4,4,"loading...")
+10->C
+(I+(P*4))->D
+Send(C)
+Send(D)
+0->S
+Repeat S
+Get(S)
+End
+Get(S)
+Get(Pic1)
+~1->I
+0->D
+ClrDraw
+RecallPic Pic1
+Pause 
+Goto I1
+End
+Pause 
+
+
+Lbl T0:
+0->P
+0->R
+""->Str1
+""->Str0
+
+
+Lbl T1:
+ClrHome
+0->S
+11->C
+Send(C)
+Send(R)
+Send(P)
+Output(4,2,"loading chats...")
+Repeat S
+Get(S)
+End
+ClrHome
+Get(Str0)
+
+Output(1,1,Str0)
+Output(8,1,"Page:")
+Output(8,6,P)
+
+0->K
+Repeat max(K={25,34,45,105})
+getKey->K
+End
+
+If K=45:Then
+Goto Q1
+End
+If K=25:Then
+P+1->P
+End
+If K=34:Then
+max(P-1,0)->P
+End
+If K=105:Then
+ClrHome
+Output(2,1,Str0)
+Input Str1
+12->C
+Send(C)
+Send(R)
+Send(Str1)
+Repeat S
+Get(S)
+End
+ClrHome
+Get(Str0)
+End
+
+Goto T1
+
+
+Goto Q1
