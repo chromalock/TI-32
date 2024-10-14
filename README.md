@@ -1,12 +1,12 @@
 # TI-32
 
-A fork to give TI-84 Plus C Silver Edition calculators 
+A fork to give TI-84 Plus C Silver Edition calculators access to Gemini API (or OpenAI API) chat completions.
 
 ![built pcb](./pcb/built.png)
 
 ## Fork differences
 
-- Google API support
+- Gemini API support
 - Support for multi-page response from GPT
 
 ## Documentation
@@ -19,7 +19,6 @@ Read the DOCUMENTATION.md file
 - Watchdog when receiving items
 - Support for color images
 - Action text during waiting phase
-
 - Support for chat history from GPT
 - Support for bigger menu (320x240 resolution only)
 - Support for lowercase text
