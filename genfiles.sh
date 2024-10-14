@@ -1,1 +1,0 @@
-find ./test-images/* -type f -exec node ./prepareimage.mjs "{}" \;
