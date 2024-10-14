@@ -31,7 +31,7 @@ export async function googleApi() {
         ],
         systemInstruction: {
           role: "user",
-          parts: [{ text: "Keep it short, but not too short. Do not use emojis. Do not use symbols." }]
+          parts: [{ text: "Do not use emojis. Do not use symbols." }]
         },
         generationConfig: {
           temperature: 1,
