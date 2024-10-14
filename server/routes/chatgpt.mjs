@@ -26,7 +26,7 @@ export async function chatgpt() {
           },
           { role: "user", content: question },
         ],
-        model: "gpt-4o-mini",
+        model: "gpt-4o",
       });
 
       res.send(result.choices[0]?.message?.content ?? "no response");
