@@ -1,12 +1,17 @@
 # TI-32
 
-A mod for the TI-84 Plus Silver Edition & TI-84 Plus C Silver Edition calculators to give them internet access and add other features, like test mode breakout and camera support
+A fork to give TI-84 Plus C Silver Edition calculators 
 
 ![built pcb](./pcb/built.png)
 
 ## Fork differences
 
-- Google api option for server
+- Google API support
+- Support for multi-page response from GPT
+
+## Documentation
+
+Read the DOCUMENTATION.md file
 
 ## Features to be Added
 
@@ -14,7 +19,7 @@ A mod for the TI-84 Plus Silver Edition & TI-84 Plus C Silver Edition calculator
 - Watchdog when receiving items
 - Support for color images
 - Action text during waiting phase
-- Support for multi-page response from GPT
+
 - Support for chat history from GPT
 - Support for bigger menu (320x240 resolution only)
 - Support for lowercase text
@@ -25,21 +30,9 @@ A mod for the TI-84 Plus Silver Edition & TI-84 Plus C Silver Edition calculator
 - Discord Access
 - Get local weather
 - Control computer wirelessly
-- QR Code & Barcode scanner
 - Video player
 
-## Bug Fixes
 
-- GPT Menu closes immediately when receiving response
-- App transfer fails
-
-## Known Issues
-
-- Images don't tranfer: if you get this problem, one cause is the esp32 not having enough memory to store the picture or the picture is too large.
-
-## Documentation
-
-Read the DOCUMENTATION.md file
 
 ## Video
 [![YouTube](http://i.ytimg.com/vi/Bicjxl4EcJg/hqdefault.jpg)](https://www.youtube.com/watch?v=Bicjxl4EcJg)
