@@ -61,6 +61,9 @@ constexpr auto MAXHTTPRESPONSELEN = 4096;
 char response[MAXHTTPRESPONSELEN];
 // image variable (96x63)
 uint8_t frame[PICVARSIZE] = {PICSIZE & 0xff, PICSIZE >> 8};
+String fullResponse;
+const int PAGE_SIZE = 233;
+int PAGE_PAGE = 0; 
 
 void connect();
 void disconnect();
@@ -75,6 +78,9 @@ void fetch_chats();
 void send_chat();
 void program_list();
 void fetch_program();
+void sendPage();
+void reply();
+void clearChat(); 
 
 struct Command
 {
@@ -99,6 +105,9 @@ struct Command commands[] = {
     {12, "send_chat", 2, send_chat, true},
     {13, "program_list", 1, program_list, true},
     {14, "fetch_program", 1, fetch_program, true},
+    { 15, "sendPage", 1, sendPage, true },
+    { 16, "reply", 1, reply, true },
+    { 17, "clearChat", 1, clearChat, true}, 
 };
 
 constexpr int NUMCOMMANDS = sizeof(commands) / sizeof(struct Command);
@@ -167,7 +176,10 @@ bool camera_sign = false;
 void setup()
 {
   Serial.begin(115200);
+   Serial.println("delay");
+    delay(2000); 
   Serial.println("[CBL]");
+  delay(1000);
 
   cbl.setLines(TIP, RING);
   cbl.resetLines();
@@ -353,6 +365,30 @@ int onReceived(uint8_t type, enum Endpoint model, int datalen)
       Serial.println(cmd);
       return -1;
     }
+    
+  }
+      if (varName == 'V') {
+    if (type != VarTypes82::VarReal) {
+      return -1;
+    }
+    PAGE_PAGE = TIVar::realToLong8x(data, model);
+    Serial.print("Received page number: ");
+    Serial.println(PAGE_PAGE);
+    sendPage();
+    return 0;
+  }
+
+  if (varName == 'X') {
+    Serial.println("Recieved var X");
+    if (type != VarTypes82::VarReal) {
+      Serial.println("var x not equal vartypes82:varreal");
+      return -1;
+
+    }
+    Serial.println("Reset fullResponse to empty");
+    fullResponse = "";
+    
+    return 0;
   }
 
   if (currentArg >= MAXARGS)
@@ -543,25 +579,68 @@ void disconnect()
   setSuccess("disconnected");
 }
 
-void gpt()
-{
-  const char *prompt = strArgs[0];
+void clearChat() {
+  fullResponse = "";
+}
+
+void reply() {
+  Serial.println("Reply action initiated");
+  const char* userReply = strArgs[0];
+  Serial.print("prompt: ");
+  Serial.println(userReply);
+  // Append the user's reply to the existing conversation
+  fullResponse += "| User: " + String(userReply) + "| AI: ";
+  Serial.print("full response: ");
+  Serial.println(fullResponse);
+  // Send the updated conversation to the server
+  auto url = String(SERVER) + String("/gpt/ask?question=") + urlEncode(fullResponse);
+  Serial.println("made url");
+  Serial.println(url);
+
+  size_t realsize = 0;
+  Serial.println("sending request");
+  if (makeRequest(url, response, MAXHTTPRESPONSELEN, &realsize)) {
+    setError("error making request");
+    return;
+  }
+  Serial.println("request recieved");
+
+  // Update fullResponse with the new AI response
+  fullResponse += String(response);
+
+  PAGE_PAGE = 0;  // Reset to first page
+  sendPage();
+}
+
+void gpt() {
+  const char* prompt = strArgs[0];
   Serial.print("prompt: ");
   Serial.println(prompt);
+
+  fullResponse = "User: " + String(prompt) + " | AI: ";
 
   auto url = String(SERVER) + String("/gpt/ask?question=") + urlEncode(String(prompt));
 
   size_t realsize = 0;
-  if (makeRequest(url, response, MAXHTTPRESPONSELEN, &realsize))
-  {
+  if (makeRequest(url, response, MAXHTTPRESPONSELEN, &realsize)) {
     setError("error making request");
     return;
   }
 
-  Serial.print("response: ");
-  Serial.println(response);
+  fullResponse += String(response);
+  Serial.print("Full response: ");
+  Serial.println(fullResponse);
 
-  setSuccess(response);
+  PAGE_PAGE = 0; 
+  sendPage();
+}
+
+void sendPage() {
+  int start = PAGE_PAGE * PAGE_SIZE;
+  String pageContent = fullResponse.substring(start, min(start + PAGE_SIZE, (int)fullResponse.length()));
+  
+  strncpy(message, pageContent.c_str(), MAXSTRARGLEN);
+  setSuccess(message);
 }
 
 void send()
