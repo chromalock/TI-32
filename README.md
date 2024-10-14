@@ -1,33 +1,32 @@
-# TI-32
+# TI-32-CSE
 
-A fork to give TI-84 Plus C Silver Edition calculators access to Gemini API (or OpenAI API) chat completions.
+A fork of TI-32. This mod gives TI-84 Plus C Silver Edition calculators access to Gemini API (or OpenAI API) chat completion requests.
+
 
 ![built pcb](./pcb/built.png)
 
-## Video by ChromaLock
-[![YouTube](http://i.ytimg.com/vi/Bicjxl4EcJg/hqdefault.jpg)](https://www.youtube.com/watch?v=Bicjxl4EcJg)
 
-## Fork differences
+## Fork additions
 
 - Gemini API support
-- Support for multi-page response from GPT
+- Support for paginated response on GPT
+- Support for replying to GPT
 
 ## Documentation
 
 Read the DOCUMENTATION.md file
+Not fully built
 
 ## Features to be Added
 
+- HTTPS Encryption
 - Change Wi-Fi settings directly from calculator
 - Watchdog when receiving items
 - Support for color images
 - Action text during waiting phase
-- Support for chat history from GPT
-- Support for bigger menu (320x240 resolution only)
 - Support for lowercase text
 - Documentation
 - Basic Web Browsing
-- HTTPS Encryption
 - Email Send and Read
 - Discord Access
 - Get local weather

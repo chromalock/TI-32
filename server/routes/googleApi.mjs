@@ -37,7 +37,7 @@ export async function googleApi() {
           temperature: 1,
           topK: 64,
           topP: 0.95,
-          maxOutputTokens: 500,
+          maxOutputTokens: 1024,
           responseMimeType: "text/plain"
         }
       });
