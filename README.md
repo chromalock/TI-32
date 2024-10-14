@@ -4,6 +4,9 @@ A fork to give TI-84 Plus C Silver Edition calculators access to Gemini API (or 
 
 ![built pcb](./pcb/built.png)
 
+## Video by ChromaLock
+[![YouTube](http://i.ytimg.com/vi/Bicjxl4EcJg/hqdefault.jpg)](https://www.youtube.com/watch?v=Bicjxl4EcJg)
+
 ## Fork differences
 
 - Gemini API support
@@ -33,5 +36,4 @@ Read the DOCUMENTATION.md file
 
 
 
-## Video
-[![YouTube](http://i.ytimg.com/vi/Bicjxl4EcJg/hqdefault.jpg)](https://www.youtube.com/watch?v=Bicjxl4EcJg)
+
