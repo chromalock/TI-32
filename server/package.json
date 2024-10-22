@@ -1,27 +1,12 @@
 {
-  "name": "server",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "dependencies": {
-    "body-parser": "^1.20.2",
+    "axios": "^1.7.7",
+    "body-parser": "^1.20.3",
     "cors": "^2.8.5",
-    "csv-database": "^0.9.2",
     "dotenv": "^16.4.5",
-    "express": "^4.19.2",
-    "image-to-base64": "^2.2.0",
-    "jimp": "^0.22.12",
+    "express": "^4.21.1",
     "lodash": "^4.17.21",
-    "lowdb": "^7.0.1",
     "morgan": "^1.10.0",
-    "openai": "^4.55.3",
-    "papaparse": "^5.4.1",
-    "winston": "^3.14.1"
+    "openai": "^4.67.3"
   }
 }
