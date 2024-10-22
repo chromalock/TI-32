@@ -1,6 +1,4 @@
-# TI-32-CSE
-
-A fork of TI-32. This mod gives TI-84 Plus C Silver Edition calculators access to Gemini API (or OpenAI API) chat completion requests.
+# TI-32
 
 
 ![built pcb](./pcb/built.png)
