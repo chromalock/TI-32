@@ -15,22 +15,7 @@
 Read the DOCUMENTATION.md file
 Not fully built
 
-## Features to be Added
-
-- HTTPS Encryption
-- Change Wi-Fi settings directly from calculator
-- Watchdog when receiving items
-- Support for color images
-- Action text during waiting phase
-- Support for lowercase text
-- Documentation
-- Basic Web Browsing
-- Email Send and Read
-- Discord Access
-- Get local weather
-- Control computer wirelessly
-- Video player
-
-
+## Video
+[![YouTube](http://i.ytimg.com/vi/Bicjxl4EcJg/hqdefault.jpg)](https://www.youtube.com/watch?v=Bicjxl4EcJg)
 
 
