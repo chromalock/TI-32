@@ -2,7 +2,7 @@
 
 ![built pcb](./pcb/built.png)
 
-[!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/purple_img.png)](https://www.buymeacoffee.com/ChromaLock)
+[!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/purple_img.png)](https://buymeacoffee.com/contactchrh)
 
 ## Documentation
 
